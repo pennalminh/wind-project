@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WIND</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function callAPI(endpoint) {
+          const dataToSend = { key: "value" }; // Example data to send
+          fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend), // Ensure the data is stringified
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }
+
+        document
+          .getElementById("callAPIGetForecastNextDay")
+          .addEventListener("click", function () {
+            callAPI("/api/export-csv-in-next-day");
+          });
+
+        document
+          .getElementById("callAPIGetForecastNext2Day")
+          .addEventListener("click", function () {
+            callAPI("/api/export-csv-in-next-2-day");
+          });
+      });
+
+      function startTime() {
+        const today = new Date();
+        let h = today.getHours();
+        let m = today.getMinutes();
+        let s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById("txt").innerHTML = h + ":" + m + ":" + s;
+        setTimeout(startTime, 1000);
+      }
+
+      function checkTime(i) {
+        if (i < 10) {
+          i = "0" + i;
+        }
+        return i;
+      }
+    </script>
+  </head>
+  <style>
+    .btn {
+      background-color: #04aa6d; /* Green */
+      border: none;
+      color: white;
+      padding-inline: 10px;
+      padding-block: 5px;
+      margin-right: 5px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .btn-export {
+      background-color: #008cba;
+      margin-left: 10px;
+      border: none;
+      color: white;
+      height: 30px;
+      margin-top: 14px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 40px;
+    }
+  </style>
+  <body onload="startTime()">
+    <div class="container">
+      <h1>Wind team</h1>
+      <div id="txt"></div>
+      <div style="display: flex">
+        <div>
+          <button class="btn">
+            <a style="text-decoration: none" href="/" rel="noopener noreferrer"
+              >Biểu đồ</a
+            >
+          </button>
+        </div>
+        <div>
+          <button class="btn">
+            <a style="text-decoration: none" href="/" rel="noopener noreferrer"
+              >Báo cáo</a
+            >
+          </button>
+        </div>
+      </div>
+      <div style="display: flex">
+        <h4>Dự báo trong 1 ngày:</h4>
+        <button id="callAPIGetForecastNextDay" class="btn-export">
+          Xuất file
+        </button>
+      </div>
+
+      <div style="display: flex">
+        <h4>Dự báo trong 2 ngày:</h4>
+        <button id="callAPIGetForecastNext2Day" class="btn-export">
+          Xuất file
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
