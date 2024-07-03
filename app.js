@@ -4,6 +4,7 @@ const { writeDataWindyEvery3h } = require("./db/writeData");
 const bodyParser = require("body-parser");
 const exportExcelRouter = require("./routers/exportExcelRouter");
 const { exportExcel96Period } = require("./controllers/exportExcelController");
+const schedule = require("node-schedule");
 const app = express();
 
 require("dotenv").config();
