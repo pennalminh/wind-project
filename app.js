@@ -5,11 +5,13 @@ const bodyParser = require("body-parser");
 const exportExcelRouter = require("./routers/exportExcelRouter");
 const { exportExcel96Period } = require("./controllers/exportExcelController");
 const schedule = require("node-schedule");
+const allowCrossDomain = require("./middlewares/allowCrossDomain");
 const app = express();
 
 require("dotenv").config();
 
 // Middleware
+app.use(allowCrossDomain);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
